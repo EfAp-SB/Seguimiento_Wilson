@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecosistema Digital VP_TH&A | Seguros Bolívar</title>
+    <style>
+        :root {
+            --sb-green: #007A3D;
+            --sb-green-dark: #005c2e;
+            --sb-gold: #F5A800;
+            --sb-gray-light: #f4f7f6;
+            --sb-text: #1a1a1a;
+            --white: #ffffff;
+            --danger: #d9534f;
+            --warning: #f0ad4e;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: var(--sb-text); line-height: 1.6; background-color: var(--sb-gray-light); }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--sb-green);
+        }
+        .logo-area { font-weight: 900; font-size: 1.2rem; color: var(--sb-green); letter-spacing: 1px; }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--sb-text); 
+            font-weight: 600; 
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--sb-green); }
+        .btn-status { background: var(--sb-green); color: white !important; padding: 8px 15px; border-radius: 5px; }
+
+        /* Sections */
+        section { padding: 120px 8% 60px; min-height: 100vh; }
+        .hero { background: linear-gradient(rgba(0,122,61,0.9), rgba(0,122,61,0.9)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); 
+                color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 60vh; }
+        
+        h2 { color: var(--sb-green); font-size: 2.5rem; margin-bottom: 2rem; border-left: 5px solid var(--sb-gold); padding-left: 15px; }
+        
+        /* Grid Layouts */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { background: var(--white); padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--sb-green); }
+        .card.stop { border-top-color: var(--danger); }
+        
+        /* Specific Styles */
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+        .bg-red { background: #ffebee; color: var(--danger); }
+        .bg-green { background: #e8f5e9; color: var(--sb-green); }
+        
+        .timeline-box { background: var(--sb-green-dark); color: white; padding: 20px; border-radius: 8px; margin-top: 30px; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: var(--sb-green); color: white; }
+
+        footer { background: var(--sb-text); color: white; padding: 40px 8%; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo-area">SEGUROS BOLÍVAR <span style="color: var(--sb-gold);">VP_TH&A</span></div>
+        <ul class="nav-links">
+            <li><a href="#hcm">1. HCM & Nómina</a></li>
+            <li><a href="#coupa">2. Análisis COUPA</a></li>
+            <li><a href="#saghi">3. Análisis SAGHI</a></li>
+            <li><a href="#" class="btn-status">Q3 2026 ROADMAP</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1 style="font-size: 3.5rem;">Estrategia de Transformación 2026</h1>
+        <p style="font-size: 1.2rem; max-width: 800px; margin-top: 20px;">Unificación de capacidades, optimización de abastecimiento y modernización de arquitectura para el ecosistema de talento humano.</p>
+    </section>
+
+    <section id="hcm">
+        <h2>1. HCM y Nómina</h2>
+        
+        <div class="card" style="margin-bottom: 30px;">
+            <h3>Diagnóstico y Estrategia de Unificación</h3>
+            <p>Se ha ratificado la decisión estratégica de <strong>no fragmentar la solución</strong>. El objetivo es reemplazar PeopleSoft y HCM Cloud por un solo ecosistema integrado.</p>
+            <div class="grid-3">
+                <div class="card">
+                    <h4>Estado Actual</h4>
+                    <ul>
+                        <li>Brechas tecnológicas en procesos core.</li>
+                        <li>Fragmentación entre HCM y motor de cálculo.</li>
+                        <li>Alta carga administrativa manual.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Estrategia Futura</h4>
+                    <ul>
+                        <li>Adquisición de plataforma integral.</li>
+                        <li>Arquitectura nativa en la nube.</li>
+                        <li>Foco en autogestión del empleado.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h3>Resultado RFP (16 Herramientas Evaluadas)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Proveedor</th>
+                    <th>Estado</th>
+                    <th>Fortaleza Clave</th>
+                    <th>Veredicto Preliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Rankmi</strong></td>
+                    <td>Preseleccionado</td>
+                    <td>Líder en IA, UX y Seguridad (Nube Nativa)</td>
+                    <td>Recomendado para Transformación</td>
+                </tr>
+                <tr>
+                    <td><strong>Heinsohn</strong></td>
+                    <td>Preseleccionado</td>
+                    <td>Madurez en Negocio Core y Cumplimiento Local</td>
+                    <td>Opción de Bajo Riesgo</td>
+                </tr>
+                <tr>
+                    <td><strong>BUK</strong></td>
+                    <td>Preseleccionado</td>
+                    <td>Capacidad Técnica en IA</td>
+                    <td>Riesgo en Soporte y UX</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="timeline-box">
+            <h4>📅 Hito de Terminación: Octubre 2026</h4>
+            <p>Finalización de diseño de arquitectura futura e inicio de migración core.</p>
+        </div>
+    </section>
+
+    <section id="coupa" style="background-color: #fff;">
+        <h2>2. Análisis COUPA</h2>
+        <p>Identificación de riesgos críticos de subutilización y oportunidades de optimización mediante IA.</p>
+
+        <div class="grid-3">
+            <div class="card stop">
+                <span class="status-badge bg-red">Riesgo Crítico</span>
+                <h4>Dolores Identificados</h4>
+                <p><strong>Fuga de procesos:</strong> Áreas negocian fuera del sistema.</p>
+                <p><strong>Fricción técnica:</strong> Latencia con ERP CAI y fallos en registros.</p>
+                <p><strong>Límite CLM:</strong> Solo 50 licencias disponibles (Restricción técnica).</p>
+            </div>
+
+            <div class="card stop">
+                <span class="status-badge bg-red">STOP - Módulos Sin Uso</span>
+                <ul>
+                    <li><strong>Inventory:</strong> Sin uso por falta de fuentes de datos.</li>
+                    <li><strong>Invoicing:</strong> Bloqueo por protocolos de seguridad de Davivienda.</li>
+                    <li><strong>Analytics:</strong> Inviable hasta estabilizar datos previos.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <span class="status-badge bg-green">Oportunidades</span>
+                <h4>Plan de Activación</h4>
+                <ul>
+                    <li>Habilitar <strong>Open Business Network</strong>.</li>
+                    <li>Activar IA para revisión de minutas (10,000 créditos).</li>
+                    <li>Coedición colaborativa en Office Online.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="timeline-box" style="background-color: var(--sb-gold);">
+            <h4 style="color: var(--sb-text);">📅 Hito de Optimización: Diciembre 2026</h4>
+            <p style="color: var(--sb-text);">Estabilización de integraciones con CAI y despliegue de funcionalidades de IA en CLM.</p>
+        </div>
+    </section>
+
+    <section id="saghi">
+        <h2>3. Análisis SAGHI</h2>
+        
+        <div class="grid-3">
+            <div class="card" style="grid-column: span 2;">
+                <h3>Estrategia de "Estrangulamiento"</h3>
+                <p>Basado en el análisis de código fuente y mapeo de capacidades, se ha decidido reducir el alcance de SAGHI al mínimo operativo.</p>
+                <div style="margin-top: 20px;">
+                    <p><strong>Responsabilidad Residual:</strong> Nómina de Intermediarios únicamente.</p>
+                    <p><strong>Proyecto en Análisis:</strong> Desarrollo de una solución "In-House" o micro-servicio específico para reemplazar la capacidad de intermediarios, eliminando la dependencia de la arquitectura obsoleta de SAGHI.</p>
+                </div>
+            </div>
+            
+            <div class="card" style="border-top-color: var(--sb-gold);">
+                <h4>Mapeo Técnico</h4>
+                <ul>
+                    <li>Identificación de Integraciones activas.</li>
+                    <li>Extracción de lógica de negocio del código fuente.</li>
+                    <li>Reducción de superficie de riesgo.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="timeline-box">
+            <h4>📅 Hito de Terminación: Junio 2027</h4>
+            <p>Desconexión total de módulos CORE y migración de Intermediarios a nueva solución.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Seguros Bolívar | Vicepresidencia de Talento Humano y Administrativa</p>
+        <p style="font-size: 0.8rem; margin-top: 10px; color: #aaa;">Documento de uso estrictamente confidencial - Arquitectura Empresarial</p>
+    </footer>
+
+    <script>
+        // Smooth scroll para el menú
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

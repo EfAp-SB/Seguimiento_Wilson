@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RFP Nómina 2026 — Seguros Bolívar</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--sb-green:#007A3D;--sb-gold:#F5A800;--text:#1a1a1a;--muted:#6b7280;--border:#e5e7eb;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;height:100vh;overflow:hidden;background:#fff;color:var(--text);}
+.slide{display:none;height:100vh;width:100vw;position:relative;overflow:hidden;flex-direction:column;}
+.slide.active{display:flex;}
+@keyframes up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.slide.active .a1{animation:up .4s ease both;}
+.slide.active .a2{animation:up .4s .07s ease both;}
+.slide.active .a3{animation:up .4s .14s ease both;}
+.slide.active .a4{animation:up .4s .21s ease both;}
+.slide.active .a5{animation:up .4s .28s ease both;}
+
+/* HEADER */
+.sh{position:absolute;top:0;left:0;right:0;z-index:50;height:62px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 36px;background:white;border-bottom:2px solid var(--sb-green);
+  box-shadow:0 2px 10px rgba(0,122,61,.07);}
+.sh-left{display:flex;flex-direction:column;}
+.sh-title{font-size:.92em;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--sb-green);}
+.sh-sub{font-size:.76em;color:var(--muted);margin-top:1px;}
+.sh-right{display:flex;align-items:center;gap:14px;}
+.sh-divider{width:1px;height:28px;background:var(--border);}
+.sh-logo{height:36px;object-fit:contain;}
+
+/* BODY below header */
+.body{display:grid;position:absolute;top:62px;left:0;right:0;bottom:0;}
+.body-2col{grid-template-columns:34% 66%;}
+.body-2col-half{grid-template-columns:1fr 1fr;}
+
+/* LEFT PANEL — solid color */
+.lp{display:flex;flex-direction:column;justify-content:center;padding:32px 30px;position:relative;overflow:hidden;}
+.lp-circle{position:absolute;border-radius:50%;border:40px solid rgba(255,255,255,.07);}
+.lp-eyebrow{font-size:.82em;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:14px;}
+.lp-logo-wrap{margin-bottom:20px;}
+.lp-logo-wrap img{height:52px;object-fit:contain;filter:brightness(0) invert(1);}
+.lp-score{font-size:5.2em;font-weight:900;color:white;line-height:1;letter-spacing:-3px;}
+.lp-denom{font-size:1.4em;font-weight:300;color:rgba(255,255,255,.35);}
+.lp-label{font-size:.8em;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:4px;margin-bottom:20px;}
+.lp-divider{width:36px;height:3px;border-radius:2px;background:rgba(255,255,255,.35);margin-bottom:14px;}
+.lp-tagline{font-size:1em;font-weight:300;line-height:1.7;color:rgba(255,255,255,.8);max-width:240px;}
+.lp-pills{display:flex;flex-direction:column;gap:8px;margin-top:18px;}
+.lp-pill{display:flex;align-items:center;gap:9px;background:rgba(255,255,255,.12);border-radius:8px;padding:8px 13px;font-size:.88em;font-weight:600;color:white;}
+
+/* RIGHT PANEL */
+.rp{display:flex;flex-direction:column;justify-content:center;padding:20px 32px 20px 24px;gap:9px;background:white;}
+
+/* SCORE GRID 3x3 */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+.sc{background:#f9fafb;border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;transition:transform .15s;}
+.sc:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.07);}
+.sc.hi{border-color:currentColor;background:#f0faf4;}
+.sc.warn{border-color:#d1fae5;background:#f0faf4;}
+.sc.bad{border-color:#d1fae5;background:#f0faf4;}
+.sc-cat{font-size:.76em;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:5px;}
+.sc-val{font-size:2em;font-weight:900;letter-spacing:-1px;line-height:1;}
+.sc-bar{height:4px;background:#e5e7eb;border-radius:2px;margin-top:8px;}
+.sc-fill{height:100%;border-radius:2px;}
+.sc-tag{font-size:.72em;font-weight:700;margin-left:5px;vertical-align:middle;}
+
+/* INSIGHT ROW */
+.ir{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.ic{border-radius:10px;padding:13px 15px;border-left:3px solid;}
+.ic-ttl{font-size:.8em;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.ic p{font-size:.9em;line-height:1.6;color:#374151;}
+
+/* VERDICT */
+.vd{border-radius:10px;padding:13px 20px;display:flex;align-items:center;justify-content:space-between;}
+.vd-lbl{font-size:.76em;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:2px;}
+.vd-txt{font-size:1.15em;font-weight:800;color:white;}
+.vd-ico{font-size:1.8em;}
+
+/* NAV */
+.nav{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:200;
+  background:white;box-shadow:0 4px 20px rgba(0,0,0,.1);border:1px solid var(--border);border-radius:50px;padding:7px 10px;}
+.nav button{background:transparent;border:none;color:var(--muted);padding:8px 18px;border-radius:40px;
+  cursor:pointer;font-size:.88em;font-weight:700;font-family:system-ui,sans-serif;transition:all .2s;letter-spacing:.8px;text-transform:uppercase;}
+.nav button:hover{color:var(--sb-green);background:#e8f5ee;}
+.nav button.active{color:white;background:var(--sb-green);}
+.nav .arr{padding:8px 12px;}
+
+/* RANKING SLIDE */
+.rl{display:flex;flex-direction:column;justify-content:center;padding:36px 40px;}
+.rr{display:flex;flex-direction:column;justify-content:center;padding:36px 40px 36px 28px;}
+.pod{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:12px;margin-bottom:10px;
+  border:1px solid var(--border);background:#f9fafb;transition:transform .15s;}
+.pod:hover{transform:translateX(3px);}
+.pod.p1{border-color:rgba(0,122,61,.3);background:#e8f5ee;}
+.pod-logo{height:32px;object-fit:contain;max-width:100px;}
+.pod-meta{flex:1;}
+.pod-meta h3{font-size:1.05em;font-weight:800;letter-spacing:1px;}
+.pod-meta p{font-size:.82em;color:var(--muted);margin-top:2px;}
+.pod-score{font-size:2.1em;font-weight:900;letter-spacing:-1px;}
+.dg{margin-bottom:13px;}
+.dg-lbl{font-size:.78em;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);
+  margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--border);}
+.dr{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.dn{width:82px;font-size:.82em;color:var(--muted);text-align:right;flex-shrink:0;}
+.dt{flex:1;height:20px;background:#f0f0f0;border-radius:4px;overflow:hidden;}
+.df{height:100%;border-radius:4px;display:flex;align-items:center;justify-content:flex-end;padding-right:7px;font-size:.82em;font-weight:700;color:white;}
+</style>
+</head>
+<body>
+
+<!-- ═══ SLIDE 1: RANKMI ═══ -->
+<div class="slide active" id="slide-1">
+  <div class="sh a1">
+    <div class="sh-left"><div class="sh-title">Análisis de Proveedor — Rankmi</div><div class="sh-sub">RFP Selección Ecosistema de Nómina 2026</div></div>
+    <div class="sh-right"><div class="sh-divider"></div><img class="sh-logo" src="Logo-SB.png" alt="Seguros Bolívar"></div>
+  </div>
+  <div class="body body-2col">
+    <!-- LEFT verde Rankmi -->
+    <div class="lp" style="background:linear-gradient(160deg,#004d26 0%,#007A3D 55%,#009944 100%);">
+      <div class="lp-circle" style="width:200px;height:200px;top:-60px;right:-60px;"></div>
+      <div class="lp-circle" style="width:140px;height:140px;bottom:-40px;left:-40px;"></div>
+      <div class="lp-eyebrow a1">Proveedor Evaluado</div>
+      <div class="lp-logo-wrap a2"><img src="Logo_Rankmi.png" alt="Rankmi"></div>
+      <div class="a3"><span class="lp-score">4.65</span><span class="lp-denom">/5</span></div>
+      <div class="lp-label a3">Puntaje Ponderado Final</div>
+      <div class="lp-divider a4"></div>
+      <div class="lp-tagline a4">Líder de Nueva Generación.<br>Dominio en <strong style="color:white;">IA, UX & Seguridad.</strong></div>
+      <div class="lp-pills a5">
+        <div class="lp-pill">🏆 5.00 en IA & UX — Puntaje Perfecto</div>
+        <div class="lp-pill">🔒 4.71 Seguridad TI — Mejor del grupo</div>
+        <div class="lp-pill">⚡ 4.81 Arquitectura — Nube nativa</div>
+      </div>
+    </div>
+    <!-- RIGHT blanco -->
+    <div class="rp">
+      <!-- Logo proveedor grande -->
+      <div class="a1" style="display:flex;align-items:center;justify-content:center;padding:10px 0 4px;border-bottom:1px solid #e5e7eb;margin-bottom:4px;">
+        <img src="Logo_Rankmi.png" alt="Rankmi" style="height:64px;max-width:280px;object-fit:contain;">
+      </div>
+      <div class="sg a2">
+        <div class="sc" style="border-color:#d1fae5;background:#f0faf4;">
+          <div class="sc-cat">Negocio Core <span style="color:#9ca3af;">30%</span></div>
+          <div class="sc-val" style="color:#1a1a1a;">4.82</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:96.4%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Arquitectura TI <span style="color:#9ca3af;">15%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.81</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:96.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Seguridad TI <span style="color:#9ca3af;">15%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.71</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:94.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Analítica e IA <span style="color:#9ca3af;">10%</span><span class="sc-tag" style="color:#F5A800;">★ Perfecto</span></div>
+          <div class="sc-val" style="color:#007A3D;">5.00</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:100%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Operaciones TI <span style="color:#9ca3af;">10%</span></div>
+          <div class="sc-val">4.79</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:95.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Continuidad TI <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.79</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:95.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc warn">
+          <div class="sc-cat">Soporte y Servicio <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">⚠</span></div>
+          <div class="sc-val" style="color:#007A3D;">3.12</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:62.4%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Calidad QA <span style="color:#9ca3af;">5%</span></div>
+          <div class="sc-val">4.79</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:95.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">UX Digital <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#F5A800;">★ Perfecto</span></div>
+          <div class="sc-val" style="color:#007A3D;">5.00</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:100%;background:#007A3D;"></div></div>
+        </div>
+      </div>
+      <div class="ir a3">
+        <div class="ic" style="border-color:#007A3D;background:#f0faf4;">
+          <div class="ic-ttl" style="color:#007A3D;">Factor Diferenciador</div>
+          <p>Único proveedor con puntaje perfecto (5.0) en IA y UX. Su arquitectura nativa en nube (4.81) y liderazgo en seguridad (4.71) garantizan mayor autogestión del empleado, menor carga administrativa para HR y una plataforma preparada para escalar con la transformación digital de Bolívar.</p>
+        </div>
+        <div class="ic" style="border-color:#F5A800;background:#fffdf5;">
+          <div class="ic-ttl" style="color:#d97706;">⚠ Punto de Atención</div>
+          <p>Soporte y Servicio (3.12) es su categoría más baja. Se recomienda exigir SLAs con tiempos de respuesta garantizados, penalidades contractuales por incumplimiento y un plan de escalamiento con equipo dedicado para Bolívar como condición de adjudicación.</p>
+        </div>
+      </div>
+      <div class="vd a4" style="background:linear-gradient(90deg,#007A3D,#009944);">
+        <div><div class="vd-lbl">Veredicto Final</div><div class="vd-txt">Recomendado</div></div>
+        <span class="vd-ico">✅</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 2: HEINSOHN ═══ -->
+<div class="slide" id="slide-2">
+  <div class="sh a1">
+    <div class="sh-left"><div class="sh-title">Análisis de Proveedor — Heinsohn</div><div class="sh-sub">RFP Selección Ecosistema de Nómina 2026</div></div>
+    <div class="sh-right"><div class="sh-divider"></div><img class="sh-logo" src="Logo-SB.png" alt="Seguros Bolívar"></div>
+  </div>
+  <div class="body body-2col">
+    <div class="lp" style="background:linear-gradient(160deg,#003d1f 0%,#005c2e 55%,#007A3D 100%);">
+      <div class="lp-circle" style="width:200px;height:200px;top:-60px;right:-60px;"></div>
+      <div class="lp-circle" style="width:140px;height:140px;bottom:-40px;left:-40px;"></div>
+      <div class="lp-eyebrow a1">Proveedor Evaluado</div>
+      <div class="lp-logo-wrap a2"><img src="Logo_Heinsohn.png" alt="Heinsohn"></div>
+      <div class="a3"><span class="lp-score">4.52</span><span class="lp-denom">/5</span></div>
+      <div class="lp-label a3">Puntaje Ponderado Final</div>
+      <div class="lp-divider a4"></div>
+      <div class="lp-tagline a4">Sólido y Confiable.<br>Liderazgo en <strong style="color:white;">Negocio & Operaciones.</strong></div>
+      <div class="lp-pills a5">
+        <div class="lp-pill">🏅 4.83 Negocio Core — Mejor del grupo</div>
+        <div class="lp-pill">⚙️ 4.88 Operaciones TI — Procesos maduros</div>
+        <div class="lp-pill">✅ 4.88 Calidad QA — Máxima confiabilidad</div>
+      </div>
+    </div>
+    <div class="rp">
+      <!-- Logo proveedor grande -->
+      <div class="a1" style="display:flex;align-items:center;justify-content:center;padding:10px 0 4px;border-bottom:1px solid #e5e7eb;margin-bottom:4px;">
+        <img src="Logo_Heinsohn.png" alt="Heinsohn" style="height:64px;max-width:280px;object-fit:contain;">
+      </div>
+      <div class="sg a2">
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Negocio Core <span style="color:#9ca3af;">30%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.83</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:96.6%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Arquitectura TI <span style="color:#9ca3af;">15%</span></div>
+          <div class="sc-val">4.51</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:90.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Seguridad TI <span style="color:#9ca3af;">15%</span></div>
+          <div class="sc-val">4.41</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:88.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Analítica e IA <span style="color:#9ca3af;">10%</span></div>
+          <div class="sc-val">4.64</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:92.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Operaciones TI <span style="color:#9ca3af;">10%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.88</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:97.6%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Continuidad TI <span style="color:#9ca3af;">5%</span></div>
+          <div class="sc-val">4.11</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:82.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Soporte y Servicio <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.00</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:80%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc hi" style="color:#007A3D;">
+          <div class="sc-cat">Calidad QA <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">★</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.88</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:97.6%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc warn">
+          <div class="sc-cat">UX Digital <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">↓ Mejora</span></div>
+          <div class="sc-val" style="color:#007A3D;">3.20</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:64%;background:#007A3D;"></div></div>
+        </div>
+      </div>
+      <div class="ir a3">
+        <div class="ic" style="border-color:#007A3D;background:#f0faf4;">
+          <div class="ic-ttl" style="color:#007A3D;">Fortaleza Clave</div>
+          <p>Lidera en Negocio Core (4.83), Operaciones TI (4.88) y Calidad QA (4.88). Su madurez operativa y experiencia en el mercado colombiano lo convierten en la opción de menor riesgo de implementación. Procesos de entrega probados y equipo local con conocimiento regulatorio.</p>
+        </div>
+        <div class="ic" style="border-color:#F5A800;background:#fffdf5;">
+          <div class="ic-ttl" style="color:#d97706;">⚠ Área de Mejora</div>
+          <p>UX Digital (3.20) es la más baja entre competidores activos. Rezago en integración nativa de modelos predictivos de IA frente a Rankmi. Requiere un plan de modernización de interfaz y adopción de capacidades analíticas avanzadas para no quedar obsoleto a mediano plazo.</p>
+        </div>
+      </div>
+      <div class="vd a4" style="background:linear-gradient(90deg,#005c2e,#007A3D);">
+        <div><div class="vd-lbl">Veredicto Final</div><div class="vd-txt">La opción segura</div></div>
+        <span class="vd-ico">🛡️</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 3: BUK ═══ -->
+<div class="slide" id="slide-3">
+  <div class="sh a1">
+    <div class="sh-left"><div class="sh-title">Análisis de Proveedor — BUK</div><div class="sh-sub">RFP Selección Ecosistema de Nómina 2026</div></div>
+    <div class="sh-right"><div class="sh-divider"></div><img class="sh-logo" src="Logo-SB.png" alt="Seguros Bolívar"></div>
+  </div>
+  <div class="body body-2col">
+    <div class="lp" style="background:linear-gradient(160deg,#004d26 0%,#007A3D 55%,#007A3D 100%);">
+      <div class="lp-circle" style="width:200px;height:200px;top:-60px;right:-60px;"></div>
+      <div class="lp-circle" style="width:140px;height:140px;bottom:-40px;left:-40px;"></div>
+      <div class="lp-eyebrow a1">Proveedor Evaluado</div>
+      <div class="lp-logo-wrap a2"><img src="Logo_BUK.png" alt="BUK"></div>
+      <div class="a3"><span class="lp-score">3.30</span><span class="lp-denom">/5</span></div>
+      <div class="lp-label a3">Puntaje Ponderado Final</div>
+      <div class="lp-divider a4" style="background:rgba(255,255,255,.4);"></div>
+      <div class="lp-tagline a4">Brechas críticas en UX y Soporte.<br><strong style="color:white;">Riesgo de implementación elevado.</strong></div>
+      <div class="lp-pills a5">
+        <div class="lp-pill">⚠️ Soporte 1.15 — Sin SLAs demostrables</div>
+        <div class="lp-pill">⚠️ UX 0.00 — Sin evidencias digitales</div>
+        <div class="lp-pill">✔️ IA 4.82 — Único punto competitivo</div>
+      </div>
+    </div>
+    <div class="rp">
+      <!-- Logo proveedor grande -->
+      <div class="a1" style="display:flex;align-items:center;justify-content:center;padding:10px 0 4px;border-bottom:1px solid #e5e7eb;margin-bottom:4px;">
+        <img src="Logo_BUK.png" alt="BUK" style="height:64px;max-width:280px;object-fit:contain;">
+      </div>
+      <div class="sg a2">
+        <div class="sc">
+          <div class="sc-cat">Negocio Core <span style="color:#9ca3af;">30%</span></div>
+          <div class="sc-val">3.74</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:74.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Arquitectura TI <span style="color:#9ca3af;">15%</span></div>
+          <div class="sc-val">4.18</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:83.6%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Seguridad TI <span style="color:#9ca3af;">15%</span></div>
+          <div class="sc-val">4.41</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:88.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc" style="border-color:#d1fae5;background:#f0faf4;">
+          <div class="sc-cat">Analítica e IA <span style="color:#9ca3af;">10%</span><span class="sc-tag" style="color:#007A3D;">↑ Mejor</span></div>
+          <div class="sc-val" style="color:#007A3D;">4.82</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:96.4%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Operaciones TI <span style="color:#9ca3af;">10%</span></div>
+          <div class="sc-val">4.04</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:80.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Continuidad TI <span style="color:#9ca3af;">5%</span></div>
+          <div class="sc-val">3.96</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:79.2%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc" style="border-color:#d1fae5;background:#f0faf4;">
+          <div class="sc-cat">Soporte y Servicio <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">⚠ Crítico</span></div>
+          <div class="sc-val" style="color:#007A3D;">1.15</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:23%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc">
+          <div class="sc-cat">Calidad QA <span style="color:#9ca3af;">5%</span></div>
+          <div class="sc-val">4.04</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:80.8%;background:#007A3D;"></div></div>
+        </div>
+        <div class="sc warn">
+          <div class="sc-cat">UX Digital <span style="color:#9ca3af;">5%</span><span class="sc-tag" style="color:#007A3D;">⚠ Sin evidencias</span></div>
+          <div class="sc-val" style="color:#007A3D;">0.00</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:1%;background:#007A3D;"></div></div>
+        </div>
+      </div>
+      <div class="ir a3">
+        <div class="ic" style="border-color:#007A3D;background:#f0faf4;">
+          <div class="ic-ttl" style="color:#007A3D;">Punto Positivo</div>
+          <p>Analítica e IA (4.82) es su mejor categoría, segundo del grupo. Seguridad TI (4.41) equiparable a Heinsohn. Demuestra capacidad técnica en áreas específicas, lo que sugiere potencial si resuelve sus brechas operativas.</p>
+        </div>
+        <div class="ic" style="border-color:#F5A800;background:#fffdf5;">
+          <div class="ic-ttl" style="color:#d97706;">⚠ Alertas Críticas</div>
+          <p>Soporte 1.15: no demostró SLAs claros ni capacidad de respuesta ante incidentes críticos según estándares de Bolívar. UX 0.00: ausencia total de evidencias en experiencia digital. Ambas brechas representan un riesgo inaceptable de adopción y operación para la compañía.</p>
+        </div>
+      </div>
+      <div class="vd a4" style="background:linear-gradient(90deg,#004d26,#007A3D);">
+        <div><div class="vd-lbl">Veredicto Final</div><div class="vd-txt">No recomendado — Riesgo crítico</div></div>
+        <span class="vd-ico">⚠️</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 4: RANKING ═══ -->
+<div class="slide" id="slide-4">
+  <div class="sh a1">
+    <div class="sh-left"><div class="sh-title">Ranking Estratégico Final</div><div class="sh-sub">RFP Selección Ecosistema de Nómina 2026 · 9 Categorías · 142 Criterios</div></div>
+    <div class="sh-right"><div class="sh-divider"></div><img class="sh-logo" src="Logo-SB.png" alt="Seguros Bolívar"></div>
+  </div>
+  <div class="body body-2col-half">
+    <div class="rl" style="background:linear-gradient(160deg,#e8f5ee 0%,#fff 100%);border-right:1px solid var(--border);">
+      <div class="a1" style="font-size:.82em;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--sb-gold);margin-bottom:8px;">Seguros Bolívar · RFP Nómina 2026</div>
+      <div class="a2" style="font-size:2.8em;font-weight:900;line-height:1.05;margin-bottom:4px;">Ranking<br>Estratégico Final</div>
+      <div class="a2" style="font-size:.95em;color:var(--muted);margin-bottom:28px;">9 categorías · 142 criterios evaluados</div>
+      <div class="a3">
+        <div class="pod p1">
+          <div style="font-size:1.4em;width:28px;">🥇</div>
+          <img class="pod-logo" src="Logo_Rankmi.png" alt="Rankmi">
+          <div class="pod-meta"><h3>RANKMI</h3><p>Líder de Nueva Generación · IA, UX & Seguridad</p></div>
+          <div class="pod-score" style="color:#007A3D;">4.65</div>
+        </div>
+        <div class="pod">
+          <div style="font-size:1.4em;width:28px;">🥈</div>
+          <img class="pod-logo" src="Logo_Heinsohn.png" alt="Heinsohn">
+          <div class="pod-meta"><h3>HEINSOHN</h3><p>Sólido y Confiable · Negocio & Operaciones</p></div>
+          <div class="pod-score" style="color:#005c2e;">4.52</div>
+        </div>
+        <div class="pod">
+          <div style="font-size:1.4em;width:28px;">🥉</div>
+          <img class="pod-logo" src="Logo_BUK.png" alt="BUK">
+          <div class="pod-meta"><h3>BUK</h3><p>En Observación · Brechas críticas en UX y Soporte</p></div>
+          <div class="pod-score" style="color:#F5A800;">3.30</div>
+        </div>
+      </div>
+      <div class="a4" style="background:white;border:1px solid var(--border);border-left:3px solid var(--sb-green);border-radius:10px;padding:14px 16px;margin-top:10px;">
+        <p style="font-size:.92em;line-height:1.75;color:var(--muted);font-style:italic;">"Tras evaluar 142 criterios, la recomendación es <strong style="color:var(--text);">Rankmi</strong>. La brecha en IA y UX frente a Heinsohn es determinante para la transformación digital de Seguros Bolívar."</p>
+      </div>
+    </div>
+    <div class="rr">
+      <div class="a1" style="font-size:.82em;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">Análisis Dimensional — 9 Categorías</div>
+      <div class="a2">
+        <div class="dg"><div class="dg-lbl">Negocio Core (30%)</div>
+          <div class="dr"><span class="dn">Heinsohn</span><div class="dt"><div class="df" style="width:96.6%;background:#005c2e;">4.83</div></div></div>
+          <div class="dr"><span class="dn">Rankmi</span><div class="dt"><div class="df" style="width:96.4%;background:#007A3D;">4.82</div></div></div>
+          <div class="dr"><span class="dn">BUK</span><div class="dt"><div class="df" style="width:74.8%;background:#007A3D;">3.74</div></div></div>
+        </div>
+        <div class="dg"><div class="dg-lbl">Arquitectura TI (15%) · Seguridad TI (15%)</div>
+          <div class="dr"><span class="dn">Rankmi Arq.</span><div class="dt"><div class="df" style="width:96.2%;background:#007A3D;">4.81</div></div></div>
+          <div class="dr"><span class="dn">Rankmi Seg.</span><div class="dt"><div class="df" style="width:94.2%;background:#007A3D;">4.71</div></div></div>
+          <div class="dr"><span class="dn">Heinsohn</span><div class="dt"><div class="df" style="width:90.2%;background:#005c2e;">4.51</div></div></div>
+          <div class="dr"><span class="dn">BUK</span><div class="dt"><div class="df" style="width:83.6%;background:#007A3D;">4.18</div></div></div>
+        </div>
+        <div class="dg"><div class="dg-lbl">Analítica e IA (10%) · UX (5%)</div>
+          <div class="dr"><span class="dn">Rankmi IA</span><div class="dt"><div class="df" style="width:100%;background:#007A3D;">5.00 ★</div></div></div>
+          <div class="dr"><span class="dn">Rankmi UX</span><div class="dt"><div class="df" style="width:100%;background:#007A3D;">5.00 ★</div></div></div>
+          <div class="dr"><span class="dn">BUK IA</span><div class="dt"><div class="df" style="width:96.4%;background:#007A3D;">4.82</div></div></div>
+          <div class="dr"><span class="dn">BUK UX ⚠</span><div class="dt"><div class="df" style="width:3%;background:#d97706;">0</div></div></div>
+        </div>
+        <div class="dg"><div class="dg-lbl">Operaciones (10%) · Soporte (5%) · QA (5%)</div>
+          <div class="dr"><span class="dn">H. Oper.</span><div class="dt"><div class="df" style="width:97.6%;background:#005c2e;">4.88</div></div></div>
+          <div class="dr"><span class="dn">H. QA</span><div class="dt"><div class="df" style="width:97.6%;background:#005c2e;">4.88</div></div></div>
+          <div class="dr"><span class="dn">H. Soporte</span><div class="dt"><div class="df" style="width:80%;background:#005c2e;">4.00</div></div></div>
+          <div class="dr"><span class="dn">BUK Sop. ⚠</span><div class="dt"><div class="df" style="width:23%;background:#d97706;">1.15</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SLIDE 5: CUMPLIMIENTO ═══ -->
+<div class="slide" id="slide-5">
+  <div class="sh a1">
+    <div class="sh-left"><div class="sh-title">Cumplimiento de Requerimientos</div><div class="sh-sub">RFP Selección Ecosistema de Nómina 2026 · Indispensable · Necesario · Deseable</div></div>
+    <div class="sh-right"><div class="sh-divider"></div><img class="sh-logo" src="Logo-SB.png" alt="Seguros Bolívar"></div>
+  </div>
+  <div class="body body-2col-half">
+    <div style="display:flex;flex-direction:column;justify-content:center;padding:32px 36px;background:linear-gradient(160deg,#e8f5ee 0%,#fff 100%);border-right:1px solid var(--border);">
+      <div class="a1" style="font-size:.82em;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--sb-gold);margin-bottom:8px;">Seguros Bolívar · RFP Nómina 2026</div>
+      <div class="a1" style="font-size:2.2em;font-weight:900;line-height:1.1;margin-bottom:4px;">Cumplimiento de<br>Requerimientos</div>
+      <div class="a1" style="font-size:.92em;color:var(--muted);margin-bottom:24px;">Indispensable · Necesario · Deseable</div>
+      <!-- PODIO -->
+      <div class="a2" style="display:flex;align-items:flex-end;justify-content:center;gap:14px;margin-bottom:24px;height:130px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div style="font-size:.88em;font-weight:800;color:#007A3D;">84.66%</div>
+          <img src="Logo_Rankmi.png" style="height:22px;object-fit:contain;">
+          <div style="width:76px;height:84px;background:#007A3D;border-radius:7px 7px 0 0;display:flex;align-items:center;justify-content:center;color:white;font-size:1.3em;">🥈</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div style="font-size:.88em;font-weight:800;color:#005c2e;">89.93%</div>
+          <img src="Logo_Heinsohn.png" style="height:22px;object-fit:contain;">
+          <div style="width:76px;height:112px;background:#005c2e;border-radius:7px 7px 0 0;display:flex;align-items:center;justify-content:center;color:white;font-size:1.5em;">🥇</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+          <div style="font-size:.88em;font-weight:800;color:#007A3D;">75.00%</div>
+          <img src="Logo_BUK.png" style="height:22px;object-fit:contain;">
+          <div style="width:76px;height:56px;background:#007A3D;border-radius:7px 7px 0 0;display:flex;align-items:center;justify-content:center;color:white;font-size:1.1em;">🥉</div>
+        </div>
+      </div>
+      <div style="height:2px;background:var(--border);border-radius:2px;margin-bottom:18px;"></div>
+      <div class="a3" style="background:white;border:1px solid var(--border);border-left:3px solid #007A3D;border-radius:10px;padding:13px 15px;">
+        <div style="font-size:.82em;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#007A3D;margin-bottom:5px;">Conclusión</div>
+        <p style="font-size:.92em;line-height:1.65;color:var(--muted);">Heinsohn lidera en <strong style="color:var(--text);">Indispensables (89.93%)</strong>, pero Rankmi supera en <strong style="color:var(--text);">Deseables (86.67%)</strong>, reflejando mayor innovación. BUK muestra brechas críticas en todas las prioridades.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;justify-content:center;padding:32px 36px 32px 28px;gap:14px;">
+      <div class="a1" style="font-size:.82em;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);">Detalle por Prioridad y Proveedor</div>
+
+      <style>
+        .ctbl{width:100%;border-collapse:collapse;font-size:.84em;}
+        .ctbl thead tr{background:#f0f2f5;}
+        .ctbl th{padding:8px 12px;font-weight:700;color:var(--muted);text-align:center;border-bottom:2px solid var(--border);}
+        .ctbl th:first-child{text-align:left;}
+        .ctbl td{padding:8px 12px;text-align:center;border-bottom:1px solid #f0f2f5;color:var(--text);}
+        .ctbl td:first-child{text-align:left;font-weight:500;}
+        .ctbl tr:last-child td{border-bottom:none;}
+        .ctbl tr:hover td{background:#f9fafb;}
+        .tbl-wrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:white;}
+        .tbl-header{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+        .tbl-header img{height:20px;object-fit:contain;}
+        .tbl-header .pname{font-size:.9em;font-weight:800;letter-spacing:1px;text-transform:uppercase;}
+        .tbl-header .pbadge{margin-left:auto;font-size:.75em;font-weight:700;}
+      </style>
+
+      <!-- HEINSOHN -->
+      <div class="a2">
+        <div class="tbl-header">
+          <img src="Logo_Heinsohn.png" alt="Heinsohn">
+          <span class="pname" style="color:#005c2e;">Heinsohn</span>
+          <span class="pbadge" style="color:#005c2e;">🥇 Líder en Indispensables</span>
+        </div>
+        <div class="tbl-wrap">
+          <table class="ctbl">
+            <thead><tr><th>Prioridad</th><th>Cumple</th><th>Parcial</th><th>No cumple</th><th>Total</th><th style="color:#005c2e;">% Cumple</th></tr></thead>
+            <tbody>
+              <tr><td>Indispensable</td><td>159</td><td>13</td><td>1</td><td>178</td><td style="font-weight:800;color:#005c2e;">89.93%</td></tr>
+              <tr><td>Necesario</td><td>68</td><td>10</td><td>1</td><td>83</td><td style="font-weight:800;color:#005c2e;">81.93%</td></tr>
+              <tr><td>Deseable</td><td>78</td><td>14</td><td>4</td><td>96</td><td style="font-weight:800;color:#005c2e;">81.25%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- RANKMI -->
+      <div class="a3">
+        <div class="tbl-header">
+          <img src="Logo_Rankmi.png" alt="Rankmi">
+          <span class="pname" style="color:#007A3D;">Rankmi</span>
+          <span class="pbadge" style="color:#007A3D;">🥈 Líder en Deseables</span>
+        </div>
+        <div class="tbl-wrap">
+          <table class="ctbl">
+            <thead><tr><th>Prioridad</th><th>Cumple</th><th>Parcial</th><th>No cumple</th><th>Total</th><th style="color:#007A3D;">% Cumple</th></tr></thead>
+            <tbody>
+              <tr><td>Indispensable</td><td>160</td><td>18</td><td>6</td><td>189</td><td style="font-weight:800;color:#007A3D;">84.66%</td></tr>
+              <tr><td>Necesario</td><td>71</td><td>14</td><td>4</td><td>89</td><td style="font-weight:800;color:#007A3D;">79.78%</td></tr>
+              <tr><td>Deseable</td><td>78</td><td>10</td><td>1</td><td>90</td><td style="font-weight:800;color:#007A3D;">86.67%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- BUK -->
+      <div class="a4">
+        <div class="tbl-header">
+          <img src="Logo_BUK.png" alt="BUK">
+          <span class="pname" style="color:#007A3D;">BUK</span>
+          <span class="pbadge" style="color:#007A3D;">🥉 Brechas críticas</span>
+        </div>
+        <div class="tbl-wrap" style="border-color:#d1fae5;">
+          <table class="ctbl">
+            <thead style="background:#e8f5ee;"><tr><th>Prioridad</th><th>Cumple</th><th>Parcial</th><th>No cumple</th><th>Total</th><th style="color:#007A3D;">% Cumple</th></tr></thead>
+            <tbody>
+              <tr><td>Indispensable</td><td>141</td><td>19</td><td>22</td><td>188</td><td style="font-weight:800;color:#007A3D;">75.00%</td></tr>
+              <tr><td>Necesario</td><td>46</td><td>20</td><td>21</td><td>87</td><td style="font-weight:800;color:#007A3D;">52.87%</td></tr>
+              <tr><td>Deseable</td><td>50</td><td>13</td><td>26</td><td>90</td><td style="font-weight:800;color:#007A3D;">55.56%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="arr" onclick="goTo(currentSlide-1)">◀</button>
+  <button onclick="goTo(1)" id="btn-1" class="active">Rankmi</button>
+  <button onclick="goTo(2)" id="btn-2">Heinsohn</button>
+  <button onclick="goTo(3)" id="btn-3">BUK</button>
+  <button onclick="goTo(4)" id="btn-4">Ranking</button>
+  <button onclick="goTo(5)" id="btn-5">Cumplimiento</button>
+  <button class="arr" onclick="goTo(currentSlide+1)">▶</button>
+</nav>
+<script>
+let currentSlide=1;
+function goTo(n){
+  if(n<1||n>5)return;
+  document.getElementById('slide-'+currentSlide).classList.remove('active');
+  document.getElementById('btn-'+currentSlide).classList.remove('active');
+  currentSlide=n;
+  document.getElementById('slide-'+currentSlide).classList.add('active');
+  document.getElementById('btn-'+currentSlide).classList.add('active');
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')goTo(currentSlide+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')goTo(currentSlide-1);
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
